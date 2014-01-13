@@ -251,9 +251,10 @@ class TargetAndroid(Target):
 
         self.buildozer.info('Android NDK is missing, downloading')
         if platform in ('win32', 'cygwin'):
-            #FIXME find a way of checking 32/64 bits os (not sys.maxint)
+            # Checking of 32/64 bits at Windows from: http://stackoverflow.com/a/1405971/798575
+            import struct
             archive = 'android-ndk-r{0}-windows-{1}.zip'
-            is_64 = False
+            is_64 = (8*struct.calcsize("P") == 64)
         elif platform in ('darwin', ):
             archive = 'android-ndk-r{0}-darwin-{1}.tar.bz2'
             is_64 = (os.uname()[4] == 'x86_64')
@@ -349,7 +350,8 @@ class TargetAndroid(Target):
         # we need to extract the requirements that python-for-android knows
         # about
         available_modules = self.get_available_packages()
-        android_requirements = [x for x in app_requirements if x in
+        onlyname = lambda x: x.split('==')[0]
+        android_requirements = [x for x in app_requirements if onlyname(x) in
                 available_modules]
 
         need_compile = 0
