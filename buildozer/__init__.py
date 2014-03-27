@@ -189,7 +189,7 @@ class Buildozer(object):
             return
         if USE_COLOR:
             color = COLOR_SEQ.format(30 + LOG_LEVELS_C[level])
-            print ''.join((RESET_SEQ, color, '# ', msg, RESET_SEQ))
+            print(''.join((RESET_SEQ, color, '# ', msg, RESET_SEQ)))
         else:
             print LOG_LEVELS_T[level], msg
 

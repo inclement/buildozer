@@ -301,7 +301,8 @@ class TargetAndroid(Target):
         cmd = self.buildozer.cmd
         self.pa_dir = pa_dir = join(self.buildozer.platform_dir, 'python-for-android')
         if not self.buildozer.file_exists(pa_dir):
-            system_p4a_dir = self.buildozer.config.getdefault('app', 'android.p4a_dir')
+            system_p4a_dir = realpath(self.buildozer.config.getdefault(
+                'app', 'android.p4a_dir'))
             if system_p4a_dir:
                 cmd('ln -s {} ./python-for-android'.format(system_p4a_dir),
                     cwd = self.buildozer.platform_dir)
@@ -425,7 +426,7 @@ class TargetAndroid(Target):
             ' --{storage_type} {appdir}'
             ' --sdk {androidsdk}'
             ' --minsdk {androidminsdk}').format(
-            python=executable,
+            python='python3', #executable,
             name=quote(config.get('app', 'title')),
             version=version,
             package=package,
